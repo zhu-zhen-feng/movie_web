@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>永胜-学院</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, height=divice-height, inital-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+  <link rel="stylesheet" href="../../static/videos/css/bootstrap.min.css">
+  <script type="text/javascript" src="../../static/videos/js/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="../../static/videos/js/bootstrap.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="../../static/videos/css/home_page.css">
+  <link type="text/css" rel="stylesheet" href="../../static/videos/css/main.css">
+  <script type="text/javascript" src="../../static/videos/js/main.js"></script>
+  <script type="text/javascript" src="../../static/videos/js/index.js"></script>
+</head>
+<body>
+   <div class="header_con">
+        <div class="header">
+            <a href="/" class="logo fl">永胜-学院</a>
+            {% if data.user %}
+                <!-- 用户登录后显示下面，隐藏上面 -->
+                <div class="user_login fr">
+                    <img src="../../static/videos/images/person01.png" class="lgin_pic">
+                    <a href="/user/info" id="nick_name">{{ data.user.nick_name }}</a>
+                    <a href="javascript:;" onclick="logOut()">退出</a>
+                </div>
+            {% else %}
+                <div class="user_btns fr">
+                <a href="javascript:;" class="login_btn">登录</a>&nbsp;&nbsp;<a href="javascript:;" class="register_btn">注册</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+   <div class="conter_con">
+      <div class="container fr">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+      	<!-- 轮播（Carousel）指标 -->
+      	<ol class="carousel-indicators">
+      		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      		<li data-target="#myCarousel" data-slide-to="1"></li>
+      		<li data-target="#myCarousel" data-slide-to="2"></li>
+      		<li data-target="#myCarousel" data-slide-to="3"></li>
+      	</ol>
+      	<!-- 轮播（Carousel）项目 -->
+      	<div class="carousel-inner">
+          <div class="item active">
+      			<a target="_blank"><img src="../../static/videos/images/AI.jpg" alt="冰河时代4" /></a>
+      		</div>
+      		<div class="item">
+      			<a target="_blank"><img src="../../static/videos/images/bigdata.jpg" alt="功夫熊猫3" /></a>
+      		</div>
+      		<div class="item">
+      			<a target="_blank"><img src="../../static/videos/images/computer.jpg" alt="仙侠学院" /></a>
+      		</div>
+          <div class="item">
+            <a target="_blank"><img src="../../static/videos/images/gaoshu.jpg" alt="刺猬小子" /></a>
+          </div>
+      	</div>
+      	<!-- 轮播（Carousel）导航 -->
+      	<a class="carousel-control left" href="#myCarousel"
+      	   data-slide="prev">&lsaquo;</a>
+      	<a class="carousel-control right" href="#myCarousel"
+      	   data-slide="next">&rsaquo;</a>
+     </div>
+  </div>
+      <div class="rank_con fl">
+            <div class="site-nav-search fl">
+                <form class="search">
+                    <input type="text" name="keywords" id="keywords" placeholder="请输入关键字">
+                    <button type="submit">搜索</button>
+                </form>
+            </div>
+            <div class="rank_title">
+                <h3>热门课程</h3>
+            </div>
+            <ul class="rank_list" id="rank_list">
+                {% for subject in data.subject_dict %}
+                    <li><a href="/videos/{{ subject.id }}">{{ subject.intro }}</a></li>
+                {% endfor %}
+            </ul>
+      </div>
+  </div>
+  <div>
+      <hr />
+      <ul class="nav nav-tabs nav-justified" id="index">
+          {% for category in data.category_li %}
+                {% if loop.index == 1 %}
+                    <li data-cid="{{ category.id }}" class="active"><a href="javascript:;">{{ category.name }}</a></li>
+                {% else %}
+                    <li data-cid="{{ category.id }}"><a href="javascript:;">{{ category.name }}</a></li>
+                {% endif %}
+          {% endfor %}
+      </ul>
+  </div>
+  <ul class="list_con" id="video_id">
+  </ul>
+        <!-- 登录表单 -->
+    <form class="login_form_con">
+        <div class="login_form">
+            <div class="login_title">
+                <h3>登 录</h3>
+                <a href="javascript:;" class="shutoff"></a>
+            </div>
+            <div class="form_group">
+                <input id="mobile" type="text" name="mobile" autocomplete="off">
+                <div class="input_tip">手机号</div>
+                <div id="login-mobile-err" class="error_tip">手机号不能为空</div>
+            </div>
+            <div class="form_group">
+                <input id="password" type="password" name="password">
+                <div class="input_tip">密码(不少于6位)</div>
+                <div id="login-password-err" class="error_tip">密码不能为空</div>
+            </div>
+            <input type="submit" name="" value="登 录" class="input_sub">
+            <div class="down_link"><a href="javascript:;" class="to_register">立即注册</a></div>
+        </div>
+        <div class="mask"></div>
+    </form>
+
+    <!-- 注册表单 -->
+    <form class="register_form_con">
+        <div class="register_form">
+            <div class="register_title">
+                <h3>注 册</h3>
+                <a href="javascript:;" class="shutoff"></a>
+            </div>
+            <div class="form_group">
+                <input type="text" name="username" autocomplete="off" id="register_user" class="user_input">
+                <div class="input_tip">用户名</div>
+                <div id="register-user-err" class="error_tip">用户名不能为空</div>
+            </div>
+            <div class="form_group">
+                <input type="text" name="mobile" autocomplete="off" id="register_mobile" class="phone_input">
+                <div class="input_tip">手机号</div>
+                <div id="register-mobile-err" class="error_tip">手机号不能为空</div>
+            </div>
+            <div class="form_group">
+                <input type="text" name="code_pwd" id="imagecode" class="code_pwd">
+                <div class="input_tip">图形验证码</div>
+                <img src="../../static/videos/images/pic_code.png" class="get_pic_code" onclick="generateImageCode()">
+                <div id="register-image-code-err" class="error_tip">图形码不能为空</div>
+            </div>
+            <div class="form_group">
+                <input type="password" name="password" id="register_password" class="pass_input">
+                <div class="input_tip">密码(不少于6位)</div>
+                <div id="register-password-err" class="error_tip">密码不能为空</div>
+            </div>
+            <div  class="form_group2 clearfix">
+                <input type="checkbox" class="agree_input" checked>
+                <p>同意使用条款，并已阅读"跟帖评论自律管理承诺书"</p>
+                <div class="error_tip">请勾选</div>
+            </div>
+            <input type="submit" name="" value="注 册" class="input_sub">
+            <div class="down_link">已有账号 <a href="javascript:;" class="to_login">立即登录</a></div>
+        </div>
+        <div class="mask"></div>
+    </form>
+</body>
+</html>
